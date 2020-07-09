@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJBLogger", "MJBLogger\MJBLogger.csproj", "{B87CF77B-8F62-4CF7-9E4D-89D5F346B04A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJBLogger", "src\MJBLogger.csproj", "{B87CF77B-8F62-4CF7-9E4D-89D5F346B04A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
