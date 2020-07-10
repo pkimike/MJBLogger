@@ -19,7 +19,7 @@ namespace MJBLogger
         {
             get
             {
-                return $"<{Name.PadRight(Padding)}>";
+                return $"<{Name.PadRight(Padding)}> ";
             }
         }
 
@@ -27,7 +27,7 @@ namespace MJBLogger
         {
             get
             {
-                return $"<{ChibiName.PadRight(ChibiPadding)}>";
+                return $"<{ChibiName.PadRight(ChibiPadding)}> ";
             }
         }
 
@@ -84,6 +84,14 @@ namespace MJBLogger
         }
 
         private LogLevel() { }
+
+        /// <summary>
+        /// Disables all logging
+        /// </summary>
+        public static readonly LogLevel None = new LogLevel()
+        {
+            Criticality = -1
+        };
 
         /// <summary>
         /// Built-in logging level for most critical log messages.
@@ -190,14 +198,9 @@ namespace MJBLogger
 
         private static void GetPadding()
         {
-            padding = GetPadding(Supported.Select(p => p.Name));
-            chibiPadding = GetPadding(Supported.Select(p => p.ChibiName));
+            padding = Supported.Select(p => p.Name).LongestStringLength() + 3;
+            chibiPadding = Supported.Select(p => p.ChibiName).LongestStringLength() + 3;
             gotPadding = true;
-        }
-
-        private static int GetPadding(IEnumerable<string> Elements)
-        {
-            return Elements.Aggregate(string.Empty, (max, cur) => max.Length > cur.Length ? max : cur).Length + 3;
         }
 
     }

@@ -15,4 +15,11 @@ namespace MJBLogger
             : base($"The indicated log path element \"{expression}\" contains invalid characters. Avoid: <>:\"/\\|? *")
         { }
     }
+
+    public class InvalidDateTimePattern : Exception
+    {
+        internal InvalidDateTimePattern(string expression)
+            : base($"The expression \"{expression}\" cannot be used to define a DateTime string")
+        { }
+    }
 }
