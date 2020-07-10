@@ -172,23 +172,38 @@ namespace MJBLogger
 
         internal static List<LogLevel> Supported = new List<LogLevel> { Critical, Error, Warning, Info, Verbose, Diagnostic };
 
+        /// <summary>
+        /// Indicates whether this LogLevel is of creater or equal criticality than the specified LogLevel object
+        /// </summary>
+        /// <param name="compareLevel">LogLevel object to </param>
+        /// <returns>true or false</returns>
         public bool GE(LogLevel compareLevel)
         {
             return Criticality >= compareLevel.Criticality;
         }
 
+        /// <summary>
+        /// Indicates whether this LogLevel is of lesser or equal criticality than the specified LogLevel object
+        /// </summary>
+        /// <param name="compareLevel">LogLevel object to </param>
+        /// <returns>true or false</returns>
         public bool LE(LogLevel compareLevel)
         {
             return Criticality <= compareLevel.Criticality;
         }
 
+        /// <summary>
+        /// Returns a LogLevel object whose <see cref="Name"/> matches the indicated expression.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns>A LogLevel object whose <see cref="Name"/> matches the indicated expression or <see cref="Defaults.Level"/> if no match is found.</returns>
         public static LogLevel Select(string expression)
         {
             LogLevel ll = Supported.FirstOrDefault(p => string.Equals(p.Name, expression, StringComparison.OrdinalIgnoreCase));
             if (ll == null)
             {
                 ll = Supported.FirstOrDefault(p => string.Equals(p.ChibiName, expression, StringComparison.OrdinalIgnoreCase));
-                return ll ?? Info;
+                return ll ?? Defaults.Level;
             }
             else
             {

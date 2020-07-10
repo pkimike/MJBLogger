@@ -23,22 +23,22 @@ namespace MJBLogger
         public const string FileExtension = @".log";
 
         /// <summary>
-        /// The default date stamp pattern used to generate log entry date stamps ("MM/dd/yyyy")
+        /// The default date stamp pattern used to generate log entry date stamps
         /// </summary>
         public const string DateStampPattern = @"MM/dd/yyyy";
 
         /// <summary>
-        /// The default time stamp pattern used to generate log entry time stamps ("HH:mm:ss.fff")
+        /// The default time stamp pattern used to generate log entry time stamps
         /// </summary>
         public const string TimeStampPattern = @"HH:mm:ss.fff";
 
         /// <summary>
-        /// The default date stamp pattern used to name log directories when <see cref="MJBLog.storeByDate"/> is enabled. ("dd-MMM-yyyy")
+        /// The default date stamp pattern used to name log directories when <see cref="MJBLog.storeByDate"/> is enabled.
         /// </summary>
         public const string StoreByDatePattern = @"dd-MMM-yyyy";
 
         /// <summary>
-        /// The default character which is used to preceed and follow messages written using the <see cref="MJBLog.Banner(string)"/> method. ('=')
+        /// The default character which is used to preceed and follow messages written using the <see cref="MJBLog.Banner(string)"/> method.
         /// </summary>
         public const char BannerChar = '=';
 
@@ -48,22 +48,22 @@ namespace MJBLogger
         public const int MaxTypeLength = 20;
         
         /// <summary>
-        /// The default number of characters to preceed messages written using the <see cref="MJBLog.Echo(string, bool, LogLevel)"/> method. (10)
+        /// The default number of characters to preceed messages written using the <see cref="MJBLog.Echo(string, bool, LogLevel)"/> method.
         /// </summary>
         public const int EchoIndentLength = 10;
 
         /// <summary>
-        /// The default number of characters each inner exception will be indented by when messages are written using the <see cref="MJBLog.Exception(Exception, string, bool, string)"/> method. (3)
+        /// The default number of characters each inner exception will be indented by when messages are written using the <see cref="MJBLog.Exception(Exception, string, bool, string)"/> method.
         /// </summary>
         public const int ExceptionIndentLength = 3;
 
         /// <summary>
-        /// The number of times <see cref="MJBLog.BannerChar"/> will be repeated before and after messages written using the <see cref="MJBLog.Banner(string)"/> method. (50)
+        /// The number of times <see cref="MJBLog.BannerChar"/> will be repeated before and after messages written using the <see cref="MJBLog.Banner(string)"/> method.
         /// </summary>
         public const int BannerLength = 50;
 
         /// <summary>
-        /// The default criticality threshold of new <see cref="MJBLog"/> objects if no value for <see cref="MJBLog.Level"/> is specified. (Info)
+        /// The default criticality threshold of new <see cref="MJBLog"/> objects if no value for <see cref="MJBLog.Level"/> is specified. (<see cref="LogLevel.Info"/>)
         /// </summary>
         public static readonly LogLevel Level = LogLevel.Info;
 

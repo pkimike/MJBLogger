@@ -59,31 +59,61 @@ namespace MJBLogger
 
         #region Level Entries
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Critical"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Critical(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Critical);
         }
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Error"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Error(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Error);
         }
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Warning"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Warning(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Warning);
         }
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Info"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Info(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Info);
         }
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Verbose"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Verbose(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Verbose);
         }
 
+        /// <summary>
+        /// Writes a message to the log of <see cref="LogLevel.Diagnostic"/> criticality
+        /// </summary>
+        /// <param name="text">Expression to write to the log</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Diagnostic(string text, [CallerMemberName] string callingMethod = "")
         {
             StandardEntry(text, callingMethod, LogLevel.Diagnostic);
@@ -93,6 +123,12 @@ namespace MJBLogger
 
         #region Echo Entries
 
+        /// <summary>
+        /// Writes the specified expression to the log.
+        /// </summary>
+        /// <param name="text">The expression to write to the log</param>
+        /// <param name="indent">If true the log entry will be indented.</param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
         public void Echo(string text, bool indent = true, LogLevel level = null)
         {
             if (disabled)
@@ -108,6 +144,12 @@ namespace MJBLogger
             }
         }
 
+        /// <summary>
+        /// Writes a collection of key/value pairs to the log in a line break-separated, justified format.
+        /// </summary>
+        /// <param name="tuples">The collection of key/value pairs to be written to the log</param>
+        /// <param name="indent">If true each written line will be indented.</param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
         public void Echo(Dictionary<string,string> tuples, bool indent = true, LogLevel level = null)
         {
             if (disabled)
@@ -126,6 +168,14 @@ namespace MJBLogger
             }
         }
 
+        /// <summary>
+        /// Writes the names and values of all string, int and bool properties of the specified object in a line break-separated, justified format
+        /// </summary>
+        /// <param name="obj">The object for which to list all in-scope properties</param>
+        /// <param name="message">A message to preceed the property list.</param>
+        /// <param name="indent">If true each written line will be indented.</param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void PropertyReport(object obj, string message = null, bool indent=true, LogLevel level = null, [CallerMemberName] string callingMethod = "")
         {
             if (disabled)
@@ -162,6 +212,13 @@ namespace MJBLogger
 
         #region Exception Entries
 
+        /// <summary>
+        /// Writes the description and stack trace of the specified exception to the log
+        /// </summary>
+        /// <param name="ex">The exception for which details should be written to the log</param>
+        /// <param name="message">A message to preceed the exception details</param>
+        /// <param name="includeInnerExceptions">If true, details for each inner exception will also be written to the log. Each additional inner exception found in the stack trace will be indented by <see cref="ExceptionIndentLength"/> more space characters</param>
+        /// <param name="callingMethod">If not specified, the calling method name</param>
         public void Exception(Exception ex, string message = null, bool includeInnerExceptions = true, [CallerMemberName] string callingMethod = "")
         {
             if (disabled || !Level.GE(LogLevel.Exception))
@@ -199,6 +256,10 @@ namespace MJBLogger
 
         #region Misc
 
+        /// <summary>
+        /// Writes a banner message to the log preceeded and followed by <see cref="BannerLength"/> instances of the character specified by <see cref="BannerChar"/>
+        /// </summary>
+        /// <param name="message">A message to be written to the log. If not specified, the assembly name, invoker and timestamp will be written instead.</param>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void Banner(string message = null)
         {
@@ -215,6 +276,10 @@ namespace MJBLogger
             WriteMessage($"\r\n{Divider}{message}{Divider}\r\n");
         }
 
+        /// <summary>
+        /// Writes a blank line to the log.
+        /// </summary>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
         public void LineFeed(LogLevel level = null)
         {
             if (disabled)
@@ -230,6 +295,9 @@ namespace MJBLogger
             }
         }
 
+        /// <summary>
+        /// Clears the contents from the current log file
+        /// </summary>
         public void Clear()
         {
             if (disabled)
