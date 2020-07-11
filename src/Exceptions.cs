@@ -16,9 +16,9 @@ namespace MJBLogger
         { }
     }
 
-    public class InvalidDateTimePattern : Exception
+    public class InvalidDateTimePatternException : Exception
     {
-        internal InvalidDateTimePattern(string expression)
+        internal InvalidDateTimePatternException(string expression)
             : base($"The expression \"{expression}\" cannot be used to define a DateTime string")
         { }
     }

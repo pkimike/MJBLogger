@@ -232,7 +232,7 @@ namespace MJBLogger
                 }
                 catch (Exception)
                 {
-                    throw new InvalidDateTimePattern(value);
+                    throw new InvalidDateTimePatternException(value);
                 }
             }
         }
@@ -255,7 +255,7 @@ namespace MJBLogger
                 }
                 catch (Exception)
                 {
-                    throw new InvalidDateTimePattern(value);
+                    throw new InvalidDateTimePatternException(value);
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace MJBLogger
                 }
                 catch (Exception)
                 {
-                    throw new InvalidDateTimePattern(value);
+                    throw new InvalidDateTimePatternException(value);
                 }
             }
         }
