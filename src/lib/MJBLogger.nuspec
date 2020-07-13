@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MJBLogger</id>
+    <version>0.0.0.1</version>
+	<title>MJBLogger</title>
+    <authors>X509Crypto.org</authors>
+    <owners>X509Crypto.org</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<license type="file">LICENSE</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+	<icon>logo_small.png</icon>
+    <projectUrl>https://github.com/MikeBrunoCISSP/MJBLogger</projectUrl>
+    <description>A versatile, simple-to-use class library intended for adding text file-based logging to .NET applications</description>
+    <releaseNotes>Pre-release candidate</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>Logging Logs EnterpriseLibrary.Logging</tags>
+	<repository type="git" url="https://github.com/MikeBrunoCISSP/MJBLogger/" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.2" />
+      <group targetFramework=".NETCoreApp3.0" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+      <file src="bin\Release\net462\MJBLogger.dll" target="lib\net462\MJBLogger.dll" />
+      <file src="bin\Release\netstandard2.0\MJBLogger.dll" target="lib\netstandard2.0\MJBLogger.dll" />
+      <file src="bin\Release\netcoreapp3.0\MJBLogger.dll" target="lib\netcoreapp3.0\MJBLogger.dll"/>
+      <file src="..\LICE*" target=""/>
+      <file src="..\images\logo_small.png" target=""/>
+    </files>
+</package>

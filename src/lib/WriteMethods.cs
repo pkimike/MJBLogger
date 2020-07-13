@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -157,7 +156,7 @@ namespace MJBLogger
                 return;
             }
 
-            level ??= Defaults.Level;
+            if (level == null) level = Defaults.Level;
             if (Level.GE(level ?? Defaults.Level))
             {
                 int longestLabel = tuples.Keys.LongestStringLength() + 1;
@@ -183,7 +182,7 @@ namespace MJBLogger
                 return;
             }
 
-            level ??= Defaults.Level;
+            if (level == null) level = Defaults.Level;
             if (Level.GE(level))
             {
                 Dictionary<string, string> tuples = new Dictionary<string, string>();
@@ -270,10 +269,10 @@ namespace MJBLogger
 
             if (string.IsNullOrEmpty(message))
             {
-                message = $"{Context.CallingAssembly} invoked by {Environment.UserDomainName}\\{Environment.UserName}";
+                message = $"{Context.CallingAssembly} -- invoked by {Environment.UserDomainName}\\{Environment.UserName} -- {TimeStamp}";
             }
 
-            WriteMessage($"\r\n{Divider}{message}{Divider}\r\n");
+            WriteMessage($"\r\n{Divider}\r\n{message}\r\n{Divider}\r\n");
         }
 
         /// <summary>
@@ -287,7 +286,7 @@ namespace MJBLogger
                 return;
             }
 
-            level ??= Defaults.Level;
+            if (level == null) level = Defaults.Level;
             if (Level.GE(level))
             {
                 MessageLevel = level;

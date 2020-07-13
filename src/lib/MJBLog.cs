@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.IO.Enumeration;
-using System.Reflection.PortableExecutable;
 using System.Text;
 
 namespace MJBLogger
@@ -407,7 +402,7 @@ namespace MJBLogger
                     StringBuilder Expression = new StringBuilder(string.Empty);
                     if (IncludeDateStamps)
                     {
-                        Expression.Append($" {Now.ToString(DatePattern)}");
+                        Expression.Append($"{Now.ToString(DatePattern)}");
                     }
                     if (IncludeTimeStamps)
                     {

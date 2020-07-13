@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462;netcoreapp3.0</TargetFrameworks>
+    <files>
+      <file src="bin\Release\net462\MJBLogger.dll" target="lib\net462\MJBLogger.dll" />
+      <file src="bin\Release\netstandard2.0\MJBLogger.dll" target="lib\netstandard2.0\MJBLogger.dll" />
+      <file src="bin\Release\netcoreapp2.2\MJBLogger.dll" target="lib\netcoreapp2.2\MJBLogger.dll" />
+      <file src="..\LICENSE" target="\" />
+      <file src="..\images\logo_small.png" target="\" />
+    </files>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>MJBLogger</PackageId>
+    <Description>A versatile, simple-to-use class library intended for adding text file-based logging to .NET applications</Description>
+    <Version>0.0.0.1</Version>
+    <Authors>Mike Bruno</Authors>
+    <Company>X509Crypto.org</Company>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>Logging Logs EnterpriseLibrary.Logging</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Copyright>Copyright 2020</Copyright>
+    <PackageReleaseNotes>
+      Pre-release candidate
+    </PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/MikeBrunoCISSP/MJBLogger</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LICENSE" />
+  </ItemGroup>
+
+</Project>
