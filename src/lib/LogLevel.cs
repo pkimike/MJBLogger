@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -177,8 +179,12 @@ namespace MJBLogger
         /// </summary>
         /// <param name="compareLevel">LogLevel object to </param>
         /// <returns>true or false</returns>
-        public bool GE(LogLevel compareLevel)
+        public bool GE(LogLevel? compareLevel)
         {
+            if (compareLevel is null)
+            {
+                return true;
+            }
             return Criticality >= compareLevel.Criticality;
         }
 
@@ -187,8 +193,12 @@ namespace MJBLogger
         /// </summary>
         /// <param name="compareLevel">LogLevel object to </param>
         /// <returns>true or false</returns>
-        public bool LE(LogLevel compareLevel)
+        public bool LE(LogLevel? compareLevel)
         {
+            if (compareLevel is null)
+            {
+                return true;
+            }
             return Criticality <= compareLevel.Criticality;
         }
 
@@ -196,14 +206,14 @@ namespace MJBLogger
         /// Returns a LogLevel object whose <see cref="Name"/> matches the indicated expression.
         /// </summary>
         /// <param name="expression"></param>
-        /// <returns>A LogLevel object whose <see cref="Name"/> matches the indicated expression or <see cref="Defaults.Level"/> if no match is found.</returns>
+        /// <returns>A LogLevel object whose <see cref="Name"/> matches the indicated expression or <see cref="Default.Level"/> if no match is found.</returns>
         public static LogLevel Select(string expression)
         {
             LogLevel ll = Supported.FirstOrDefault(p => string.Equals(p.Name, expression, StringComparison.OrdinalIgnoreCase));
             if (ll == null)
             {
                 ll = Supported.FirstOrDefault(p => string.Equals(p.ChibiName, expression, StringComparison.OrdinalIgnoreCase));
-                return ll ?? Defaults.Level;
+                return ll ?? Default.Level;
             }
             else
             {

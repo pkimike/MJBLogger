@@ -15,12 +15,10 @@ namespace MJBLogger
         {
             if (CachedMode)
             {
-                cache.AppendLine(message);
+                CacheEntry(message);
             }
             else
             {
-                contents.AppendLine(message);
-
                 CheckSize();
                 CheckDate();
 
@@ -31,7 +29,7 @@ namespace MJBLogger
 
             if (OutTOConsole)
             {
-                Console.ForegroundColor = MessageLevel.Color;
+                Console.ForegroundColor = lastMessageLevel.Color;
                 Console.WriteLine(message);
                 Console.ResetColor();
             }
@@ -48,9 +46,9 @@ namespace MJBLogger
 
             if (level.GE(EntryLevel))
             {
-                MessageLevel = EntryLevel;
+                lastMessageLevel = EntryLevel;
                 callerInfo = $" [{$"{(IncludeCaller ? CallingClass(1) : string.Empty)}{callingMethod}".Truncate(MaxTypeLength - 1)}] ";
-                WriteMessage($"{TimeStamp}{(UseChibiLevelLabels ? EntryLevel.ChibiLabel : EntryLevel.Label)}{callerInfo}{text}");
+                WriteMessage($"{GetTimeStamp()}{(UseChibiLevelLabels ? EntryLevel.ChibiLabel : EntryLevel.Label)}{callerInfo}{text}");
             }
         }
 
@@ -127,7 +125,7 @@ namespace MJBLogger
         /// </summary>
         /// <param name="text">The expression to write to the log</param>
         /// <param name="indent">If true the log entry will be indented.</param>
-        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Default.Level"/></param>
         public void Echo(string text, bool indent = true, LogLevel level = null)
         {
             if (disabled)
@@ -135,7 +133,7 @@ namespace MJBLogger
                 return;
             }
 
-            MessageLevel = level == null ? Defaults.Level : level;
+            lastMessageLevel = level == null ? Default.Level : level;
 
             if (Level.GE(level))
             {
@@ -148,7 +146,7 @@ namespace MJBLogger
         /// </summary>
         /// <param name="tuples">The collection of key/value pairs to be written to the log</param>
         /// <param name="indent">If true each written line will be indented.</param>
-        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Default.Level"/></param>
         public void Echo(Dictionary<string,string> tuples, bool indent = true, LogLevel level = null)
         {
             if (disabled)
@@ -156,8 +154,8 @@ namespace MJBLogger
                 return;
             }
 
-            if (level == null) level = Defaults.Level;
-            if (Level.GE(level ?? Defaults.Level))
+            if (level == null) level = Default.Level;
+            if (Level.GE(level))
             {
                 int longestLabel = tuples.Keys.LongestStringLength() + 1;
                 foreach(KeyValuePair<string,string> element in tuples)
@@ -173,7 +171,7 @@ namespace MJBLogger
         /// <param name="obj">The object for which to list all in-scope properties</param>
         /// <param name="message">A message to preceed the property list.</param>
         /// <param name="indent">If true each written line will be indented.</param>
-        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Default.Level"/></param>
         /// <param name="callingMethod">If not specified, the calling method name</param>
         public void PropertyReport(object obj, string message = null, bool indent=true, LogLevel level = null, [CallerMemberName] string callingMethod = "")
         {
@@ -182,7 +180,7 @@ namespace MJBLogger
                 return;
             }
 
-            if (level == null) level = Defaults.Level;
+            if (level == null) level = Default.Level;
             if (Level.GE(level))
             {
                 Dictionary<string, string> tuples = new Dictionary<string, string>();
@@ -225,13 +223,13 @@ namespace MJBLogger
                 return;
             }
 
-            MessageLevel = LogLevel.Exception;
-            StringBuilder Expression = new StringBuilder($"{message ?? Defaults.ExceptionMessage}:\r\n");
-            Expression.AppendLine(AppendException(ex, includeInnerExceptions));
+            lastMessageLevel = LogLevel.Exception;
+            StringBuilder Expression = new StringBuilder($"{message ?? Default.ExceptionMessage}:\r\n");
+            Expression.AppendLine(appendException(ex, includeInnerExceptions));
             StandardEntry(Expression.ToString(), callingMethod, LogLevel.Exception);
         }
 
-        private string AppendException(Exception ex, bool includeInnerExceptions, int innerExceptions = 0)
+        private string appendException(Exception ex, bool includeInnerExceptions, int innerExceptions = 0)
         {
             StringBuilder Expression = new StringBuilder();
             string indent = ExceptionIndent(innerExceptions);
@@ -245,7 +243,7 @@ namespace MJBLogger
 
             if (includeInnerExceptions && ex.InnerException != null)
             {
-                Expression.AppendLine(AppendException(ex.InnerException, true, innerExceptions + 1));
+                Expression.AppendLine(appendException(ex.InnerException, true, innerExceptions + 1));
             }
 
             return Expression.ToString();
@@ -269,16 +267,16 @@ namespace MJBLogger
 
             if (string.IsNullOrEmpty(message))
             {
-                message = $"{Context.CallingAssembly} -- invoked by {Environment.UserDomainName}\\{Environment.UserName} -- {TimeStamp}";
+                message = $"{Context.CallingAssembly} -- invoked by {Environment.UserDomainName}\\{Environment.UserName} -- {GetTimeStamp()}";
             }
 
-            WriteMessage($"\r\n{Divider}\r\n{message}\r\n{Divider}\r\n");
+            WriteMessage($"\r\n{BannerBoarder}\r\n{message}\r\n{BannerBoarder}\r\n");
         }
 
         /// <summary>
         /// Writes a blank line to the log.
         /// </summary>
-        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Defaults.Level"/></param>
+        /// <param name="level">The criticality threshold of the log message. If set to a lower criticality than the value of <see cref="Level"/> the message will be omitted. Default is <see cref="Default.Level"/></param>
         public void LineFeed(LogLevel level = null)
         {
             if (disabled)
@@ -286,10 +284,10 @@ namespace MJBLogger
                 return;
             }
 
-            if (level == null) level = Defaults.Level;
+            if (level == null) level = Default.Level;
             if (Level.GE(level))
             {
-                MessageLevel = level;
+                lastMessageLevel = level;
                 WriteMessage(string.Empty);
             }
         }
@@ -308,7 +306,6 @@ namespace MJBLogger
             {
                 File.WriteAllText(logPath, string.Empty);
             }
-            contents = new StringBuilder(string.Empty);
         }
 
         #endregion
