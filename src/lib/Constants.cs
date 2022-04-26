@@ -13,7 +13,7 @@ namespace MJBLogger
     /// <summary>
     /// Defines various default settings
     /// </summary>
-    public static class Defaults
+    public static class Default
     {
         /// <summary>
         /// The default file extension for log files (".log")
@@ -66,14 +66,27 @@ namespace MJBLogger
         public static readonly LogLevel Level = LogLevel.Info;
 
 
-        internal const string InvalidNTFSChars = @"[<>:""/\|?*]";
         internal const string ExceptionMessage = @"An exception occurred";
         internal const long MaxFileSize = 5000000;
+        internal const int CacheTimeToLiveInMinutes = 5;
     }
 
     internal static class Context
     {
         internal static readonly string CallingAssembly = AppDomain.CurrentDomain.FriendlyName.Split('.')[0];
-        internal static readonly string AssemblyDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        internal static string AssemblyDirectory
+        {
+            get
+            {
+                try
+                {
+                    return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                }
+                catch
+                {
+                    return Environment.CurrentDirectory;
+                }
+            }
+        }
     }
 }

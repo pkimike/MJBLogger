@@ -6,15 +6,6 @@ namespace MJBLogger
 {
     partial class MJBLog
     {
-        private static Regex InvalidNTFSChars = new Regex(Defaults.InvalidNTFSChars);
-
-        private static void CheckForInvalidNTFSChars(string expression)
-        {
-            if (InvalidNTFSChars.IsMatch(expression))
-            {
-                throw new InvalidLogPathException(expression);
-            }
-        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private string CallingClass(int framesIn = 0)

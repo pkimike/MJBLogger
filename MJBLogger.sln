@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MJBLogger", "src\lib\MJBLogger.csproj", "{80B15124-C339-43D8-B61D-9832A7D86AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "src\Sample\Sample.csproj", "{2250A126-2CEA-4A10-A54B-6C91B0675763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "src\Sample\Sample.csproj", "{2250A126-2CEA-4A10-A54B-6C91B0675763}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{696F71D1-6689-4ECC-85B9-A44A211DF762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2250A126-2CEA-4A10-A54B-6C91B0675763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2250A126-2CEA-4A10-A54B-6C91B0675763}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2250A126-2CEA-4A10-A54B-6C91B0675763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{696F71D1-6689-4ECC-85B9-A44A211DF762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696F71D1-6689-4ECC-85B9-A44A211DF762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696F71D1-6689-4ECC-85B9-A44A211DF762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696F71D1-6689-4ECC-85B9-A44A211DF762}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
