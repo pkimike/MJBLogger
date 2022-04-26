@@ -1,4 +1,4 @@
-# Introducing The MJB Class Library
+# Introducing The MJBLogger Class Library
 MJBLogger is a configurable, simple-to-use text file logging class library intended to allow you to add logging functionality to your .NET applications without much fuss.
 
 ## Creating a Simple Application Log
