@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 
-namespace MJBLogger
-{
+namespace MJBLogger {
     partial class MJBLog
     {
-        private void CheckDate()
+        private void checkDate()
         {
             if (Now > CurDate.Date)
             {
@@ -25,7 +24,7 @@ namespace MJBLogger
             }
         }
 
-        private void CheckSize()
+        private void checkSize()
         {
             if (disabled || !File.Exists(logPath))
             {
@@ -41,9 +40,9 @@ namespace MJBLogger
 
         private void CheckForOldDirectories()
         {
-            string directoryToCheck;
-            string[] parts;
-            foreach (string directoryName in Directory.GetDirectories(LogDirectory))
+            String directoryToCheck;
+            String[] parts;
+            foreach (String directoryName in Directory.GetDirectories(LogDirectory))
             {
                 parts = directoryName.Split('\\');
                 directoryToCheck = parts[parts.Length - 1];
@@ -51,7 +50,7 @@ namespace MJBLogger
             }
         }
 
-        private void CheckDirectory(string directoryToCheck)
+        private void CheckDirectory(String directoryToCheck)
         {
             try
             {
@@ -78,7 +77,7 @@ namespace MJBLogger
             FileInfo fInfo;
             DateTime LastWriteTime;
 
-            foreach (string filePath in Directory.GetFiles(LogDirectory))
+            foreach (String filePath in Directory.GetFiles(LogDirectory))
             {
                 fInfo = new FileInfo(filePath);
                 LastWriteTime = UseUtcTimestamps ? fInfo.LastWriteTimeUtc : fInfo.LastWriteTime;
@@ -86,7 +85,7 @@ namespace MJBLogger
                 {
                     try
                     {
-                        if (filePath.Contains(LogName) & string.Equals(Path.GetExtension(filePath), FileExtension, StringComparison.OrdinalIgnoreCase))
+                        if (filePath.Contains(LogName) & String.Equals(Path.GetExtension(filePath), FileExtension, StringComparison.OrdinalIgnoreCase))
                         {
                             File.Delete(filePath);
                             if (File.Exists(filePath))

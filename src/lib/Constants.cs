@@ -2,90 +2,93 @@
 using System.IO;
 using System.Reflection;
 
-namespace MJBLogger
-{
+namespace MJBLogger {
     internal static class LogSubject
     {
-        internal const string Retention = nameof(Retention);
-        internal const string Maintenance = nameof(Maintenance);
+        internal const String Retention = nameof(Retention);
+        internal const String Maintenance = nameof(Maintenance);
     }
 
     /// <summary>
     /// Defines various default settings
     /// </summary>
-    public static class Default
+    static class Default
     {
         /// <summary>
         /// The default file extension for log files (".log")
         /// </summary>
-        public const string FileExtension = @".log";
+        public const String FILE_EXTENSION = @".log";
 
         /// <summary>
         /// The default date stamp pattern used to generate log entry date stamps
         /// </summary>
-        public const string DateStampPattern = @"MM/dd/yyyy";
+        public const String DATE_STAMP_PATTERN = @"MM/dd/yyyy";
 
         /// <summary>
         /// The default time stamp pattern used to generate log entry time stamps
         /// </summary>
-        public const string TimeStampPattern = @"HH:mm:ss.fff";
+        public const String TIME_STAMP_PATTERN = @"HH:mm:ss.fff";
 
         /// <summary>
         /// The default date stamp pattern used to name log directories when <see cref="MJBLog.storeByDate"/> is enabled.
         /// </summary>
-        public const string StoreByDatePattern = @"dd-MMM-yyyy";
+        public const String STORE_BY_DATE_PATTERN = @"dd-MMM-yyyy";
 
         /// <summary>
-        /// The default character which is used to preceed and follow messages written using the <see cref="MJBLog.Banner(string)"/> method.
+        /// The default character which is used to preceed and follow messages written using the <see cref="MJBLog.Banner(String)"/> method.
         /// </summary>
-        public const char BannerChar = '=';
+        public const Char BANNER_CHAR = '=';
 
         /// <summary>
         /// The default number of characters a type descriptor can be on log messages. (20)
         /// </summary>
-        public const int MaxTypeLength = 20;
-        
-        /// <summary>
-        /// The default number of characters to preceed messages written using the <see cref="MJBLog.Echo(string, bool, LogLevel)"/> method.
-        /// </summary>
-        public const int EchoIndentLength = 10;
+        public const Int32 MAX_TYPE_LENGTH = 20;
 
         /// <summary>
-        /// The default number of characters each inner exception will be indented by when messages are written using the <see cref="MJBLog.Exception(Exception, string, bool, string)"/> method.
+        /// The default number of characters to preceed messages written using the <see cref="MJBLog.Echo(String, Boolean, MJBLogger.LogLevel)"/> method.
         /// </summary>
-        public const int ExceptionIndentLength = 3;
+        public const Int32 ECHO_INDENT_LENGTH = 10;
 
         /// <summary>
-        /// The number of times <see cref="MJBLog.BannerChar"/> will be repeated before and after messages written using the <see cref="MJBLog.Banner(string)"/> method.
+        /// The default number of characters each inner exception will be indented by when messages are written using the <see cref="MJBLog.Exception(Exception, String, Boolean, String)"/> method.
         /// </summary>
-        public const int BannerLength = 50;
+        public const Int32 EXCEPTION_INDENT_LENGTH = 3;
 
         /// <summary>
-        /// The default criticality threshold of new <see cref="MJBLog"/> objects if no value for <see cref="MJBLog.Level"/> is specified. (<see cref="LogLevel.Info"/>)
+        /// The number of times <see cref="MJBLog.BannerChar"/> will be repeated before and after messages written using the <see cref="MJBLog.Banner(String)"/> method.
         /// </summary>
-        public static readonly LogLevel Level = LogLevel.Info;
+        public const Int32 BANNER_LENGTH = 50;
+
+        /// <summary>
+        /// The default criticality threshold of new <see cref="MJBLog"/> objects if no value for <see cref="MJBLog.Level"/> is specified. (<see cref="MJBLogger.LogLevel.Info"/>)
+        /// </summary>
+        public static readonly LogLevel LogLevel = LogLevel.Info;
 
 
-        internal const string ExceptionMessage = @"An exception occurred";
-        internal const long MaxFileSize = 5000000;
-        internal const int CacheTimeToLiveInMinutes = 5;
+        internal const String EXCEPTION_MESSAGE = @"An exception occurred";
+        internal const Int64 MAX_FILE_SIZE = 5000000;
     }
 
-    internal static class Context
-    {
-        internal static readonly string CallingAssembly = AppDomain.CurrentDomain.FriendlyName.Split('.')[0];
-        internal static string AssemblyDirectory
+    static class Context {
+        static Boolean gotAssemblyDirectory;
+        static String assemblyDirectory;
+
+        internal static readonly String CallingAssembly = AppDomain.CurrentDomain.FriendlyName.Split('.')[0];
+        internal static String AssemblyDirectory
         {
-            get
-            {
-                try
-                {
-                    return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            get {
+                if (!gotAssemblyDirectory) {
+
+                    try {
+                        assemblyDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    } catch {
+                        assemblyDirectory = Environment.CurrentDirectory;
+                    }
+
+                    gotAssemblyDirectory = true;
                 }
-                catch
-                {
-                    return Environment.CurrentDirectory;
-                }
+
+                return assemblyDirectory;
             }
         }
     }
