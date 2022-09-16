@@ -19,7 +19,6 @@ static class Extensions {
 
     internal static List<String> SplitOnNewLine(this String expression) {
         return expression.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
-            .Where(p => !String.IsNullOrWhiteSpace(p))
-            .ToList();
+            .Where(p => !String.IsNullOrWhiteSpace(p)).ToList();
     }
 }

@@ -52,19 +52,19 @@ public partial class MJBLog {
         WriteMessage(sb.ToString());
     }
 
-    void standardEntry(String text, String callingMethod, LogLevel EntryLevel) {
+    void standardEntry(String text, String callingMethod, LogLevel entryLevel) {
         if (disabled) {
             return;
         }
 
         var callerInfo = String.Empty;
 
-        if (level.GE(EntryLevel)) {
-            lastMessageLevel = EntryLevel;
+        if (level >= entryLevel) {
+            lastMessageLevel = entryLevel;
             callerInfo =
                 $" [{$"{(IncludeCaller ? CallingClass(1) : String.Empty)}{callingMethod}".Truncate(MaxTypeLength - 1)}] ";
             WriteMessage(
-                $"{GetTimeStamp()}{(UseChibiLevelLabels ? EntryLevel.ChibiLabel : EntryLevel.Label)}{callerInfo}{text}");
+                $"{GetTimeStamp()}{(UseChibiLevelLabels ? entryLevel.ChibiLabel : entryLevel.Label)}{callerInfo}{text}");
         }
     }
 
@@ -141,9 +141,9 @@ public partial class MJBLog {
             return;
         }
 
-        lastMessageLevel = level == null ? Default.LogLevel : level;
+        lastMessageLevel = level ?? Default.LogLevel;
 
-        if (Level.GE(level)) {
+        if (Level >= lastMessageLevel) {
             WriteMessage($"{(indent ? EchoIndent : String.Empty)}{text}");
         }
     }
@@ -159,10 +159,9 @@ public partial class MJBLog {
             return;
         }
 
-        if (level == null) {
-            level = Default.LogLevel;
-        }
-        if (Level.GE(level)) {
+        level ??= Default.LogLevel;
+
+        if (Level >= level) {
             var longestLabel = tuples.Keys.LongestStringLength() + 1;
             foreach (var element in tuples) {
                 Echo($"{element.Key.PadRight(longestLabel)}: {element.Value}", indent, level);
@@ -184,10 +183,9 @@ public partial class MJBLog {
             return;
         }
 
-        if (level == null) {
-            level = Default.LogLevel;
-        }
-        if (Level.GE(level)) {
+        level ??= Default.LogLevel;
+
+        if (Level >= level) {
             var tuples = new Dictionary<String, String>();
             var type = obj.GetType();
             var properties = type.GetProperties();
@@ -218,16 +216,17 @@ public partial class MJBLog {
     /// <param name="message">A message to preceed the exception details</param>
     /// <param name="includeInnerExceptions">If true, details for each inner exception will also be written to the log. Each additional inner exception found in the stack trace will be indented by <see cref="ExceptionIndentLength"/> more space characters</param>
     /// <param name="callingMethod">If not specified, the calling method name</param>
-    public void Exception(Exception ex, String message = null, Boolean includeInnerExceptions = true,
+    public void Exception(Exception ex, LogLevel level = null, String message = null, Boolean includeInnerExceptions = true,
         [CallerMemberName] String callingMethod = "") {
-        if (disabled || !Level.GE(LogLevel.Exception)) {
+        level ??= LogLevel.Error;
+        if (disabled || Level < level) {
             return;
         }
 
-        lastMessageLevel = LogLevel.Exception;
+        lastMessageLevel = LogLevel.Error;
         var Expression = new StringBuilder($"{message ?? Default.EXCEPTION_MESSAGE}:\r\n");
         Expression.AppendLine(appendException(ex, includeInnerExceptions));
-        standardEntry(Expression.ToString(), callingMethod, LogLevel.Exception);
+        standardEntry(Expression.ToString(), callingMethod, level);
     }
 
     String appendException(Exception ex, Boolean includeInnerExceptions, Int32 innerExceptions = 0) {
@@ -278,7 +277,7 @@ public partial class MJBLog {
         }
 
         level ??= Default.LogLevel;
-        if (Level.GE(level)) {
+        if (Level >= level) {
             lastMessageLevel = level;
             WriteMessage(String.Empty);
         }

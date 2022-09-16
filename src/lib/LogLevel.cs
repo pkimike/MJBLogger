@@ -12,8 +12,8 @@ public class LogLevel {
     static Boolean gotPadding = false;
 
     public Int32 Criticality { get; private set; }
-    public String Name { get; private set; }
-    public String ChibiName { get; private set; }
+    public String Name { get; private set; } = String.Empty;
+    public String ChibiName { get; private set; } = String.Empty;
     public ConsoleColor Color { get; private set; }
 
     internal String Label => $"<{Name.PadRight(Padding)}> ";
@@ -45,7 +45,7 @@ public class LogLevel {
     /// <param name="Criticality">A value representing the importance of log entries of this type. The lower the value, the more critical</param>
     /// <param name="ChibiLabel">A short-hand identifier for Label. If not defined, will be assigned the value of Label truncated to 4 characters.</param>
     /// <param name="Color">The text color you'd like log entries of this type to appear with on-screen</param>
-    public LogLevel(String Label, Int32 Criticality, String ChibiLabel = null, ConsoleColor Color = ConsoleColor.Gray) {
+    public LogLevel(String Label, Int32 Criticality, String? ChibiLabel = null, ConsoleColor Color = ConsoleColor.Gray) {
         Name = Label;
         ChibiName = ChibiLabel ?? Label.Substring(0, 4);
         this.Criticality = Criticality;
@@ -79,16 +79,6 @@ public class LogLevel {
         Criticality = 0,
         Name = nameof(Critical),
         ChibiName = @"Crit",
-        Color = ConsoleColor.Red
-    };
-
-    /// <summary>
-    /// Built-in logging level for exceptions. Equivalent criticality to "Error"
-    /// </summary>
-    public static readonly LogLevel Exception = new() {
-        Criticality = 10,
-        Name = nameof(Exception),
-        ChibiName = @"Excep",
         Color = ConsoleColor.Red
     };
 
@@ -143,29 +133,17 @@ public class LogLevel {
     };
 
     internal static List<LogLevel> Supported = new() { Critical, Error, Warning, Info, Verbose, Diagnostic };
-
-    /// <summary>
-    /// Indicates whether this LogLevel is of greater or equal criticality than the specified LogLevel object
-    /// </summary>
-    /// <param name="compareLevel">LogLevel object to </param>
-    /// <returns>true or false</returns>
-    public Boolean GE(LogLevel? compareLevel) {
-        if (compareLevel is null) {
-            return true;
-        }
-        return Criticality >= compareLevel.Criticality;
+    public static Boolean operator >(LogLevel a, LogLevel b) {
+        return a.Criticality > b.Criticality;
     }
-
-    /// <summary>
-    /// Indicates whether this LogLevel is of lesser or equal criticality than the specified LogLevel object
-    /// </summary>
-    /// <param name="compareLevel">LogLevel object to </param>
-    /// <returns>true or false</returns>
-    public Boolean LE(LogLevel? compareLevel) {
-        if (compareLevel is null) {
-            return true;
-        }
-        return Criticality <= compareLevel.Criticality;
+    public static Boolean operator >=(LogLevel a, LogLevel b) {
+        return a.Criticality >= b.Criticality;
+    }
+    public static Boolean operator <(LogLevel a, LogLevel b) {
+        return a.Criticality < b.Criticality;
+    }
+    public static Boolean operator <=(LogLevel a, LogLevel b) {
+        return a.Criticality <= b.Criticality;
     }
 
     /// <summary>
@@ -179,7 +157,7 @@ public class LogLevel {
             return logLevel;
         }
         logLevel = Supported.FirstOrDefault(p => String.Equals(p.ChibiName, expression, StringComparison.InvariantCultureIgnoreCase));
-        
+
         return logLevel ?? Default.LogLevel;
 
     }

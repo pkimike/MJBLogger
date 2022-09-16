@@ -282,7 +282,7 @@ namespace MJBLogger {
 
         DateTime Now => UseUtcTimestamps ? DateTime.UtcNow : DateTime.Now;
 
-        Boolean OutTOConsole => ConsoleEcho && ConsoleEchoLevel.GE(lastMessageLevel);
+        Boolean OutTOConsole => ConsoleEcho && ConsoleEchoLevel >= lastMessageLevel;
 
         public void SetLevel(String sLevel) {
             level = LogLevel.Select(sLevel);
